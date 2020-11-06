@@ -1,7 +1,7 @@
 
 
 //PatternToken pattern
-open struct Pattern {
+public struct Pattern {
 	var type : Int
 	var content : String
 	var is_phrase_until : Bool
@@ -11,7 +11,7 @@ open struct Pattern {
 }
 
 //Pattern define a pattern is a array of token type
-open struct PatternGroup {
+public struct PatternGroup {
 	var type : Int
 	var patterns : [Pattern]
 	var is_remove_global_ignore : Bool
