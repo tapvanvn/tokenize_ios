@@ -1,4 +1,4 @@
-class Token {
+open class Token {
 
     var content : String = ""
     var type : Int = 0

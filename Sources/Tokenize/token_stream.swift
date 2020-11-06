@@ -1,4 +1,4 @@
-class TokenStream {
+open class TokenStream {
 
     var tokens : [Token] = []
 
@@ -191,7 +191,7 @@ class TokenStream {
     */
 }
 
-class TokenStreamIterator {
+open class TokenStreamIterator {
 
     var stream : TokenStream? = nil
     var offset : Int = 0

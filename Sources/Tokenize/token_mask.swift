@@ -1,4 +1,4 @@
-struct Mark {
+open struct Mark {
 	var type : Int
 	var begin : Int
 	var end  : Int
