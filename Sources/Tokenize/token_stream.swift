@@ -1,14 +1,16 @@
 open class TokenStream {
 
     var tokens : [Token] = []
+    public init() {
 
+    }
     //Length get len of stream
-    var length: Int {
+    public var length: Int {
 
         return tokens.count
     }
 
-    var content : String {
+    public var content : String {
 
         let iter = iterator()
 
@@ -24,18 +26,18 @@ open class TokenStream {
         return content
     }
 
-    func iterator() -> TokenStreamIterator {
+    public func iterator() -> TokenStreamIterator {
 
         return TokenStreamIterator.init(stream: self)
     }
 
-    func addToken(token: Token) {
+    public func addToken(token: Token) {
 
         tokens.append(token)
     }
 
     //Tokenize tokenize a string
-    func tokenize(content: String) {
+    public func tokenize(content: String) {
 
         for character in content {
 
@@ -45,7 +47,7 @@ open class TokenStream {
         }
     }
 
-    func tokenize(content:String, type:Int) {
+    public func tokenize(content:String, type:Int) {
 
         for character in content {
 
@@ -168,8 +170,6 @@ open class TokenStream {
         }
     }
 
-    
-
     //GetTokenIter get token at (offset + iterator) position
     func (iterator *TokenStreamIterator) GetTokenIter(iter int) *BaseToken {
 
@@ -182,12 +182,6 @@ open class TokenStream {
         return nil
     }
 
-    
-
-    
-
-    
-
     */
 }
 
@@ -197,17 +191,17 @@ open class TokenStreamIterator {
     var offset : Int = 0
     var level : Int = 0
 
-    init(stream: TokenStream) {
+    public init(stream: TokenStream) {
 
         self.stream = stream
     }
     //EOS is end of stream
-    var eos : Bool {
+    public var eos : Bool {
 
         return offset >= ( stream?.length ?? 0 )
     }
     //GetToken read token but not move pointer
-    func get() -> Token? {
+    public func get() -> Token? {
 
         guard let stream = self.stream else {
 
@@ -221,7 +215,7 @@ open class TokenStreamIterator {
         return nil
     }
     //GetTokenIter get token at (offset + iterator) position
-    func get(by:Int) -> Token? {
+    public func get(by:Int) -> Token? {
 
         guard let stream = self.stream else {
 
@@ -236,7 +230,7 @@ open class TokenStreamIterator {
         return nil
     }
     //ReadToken read token
-    func read() -> Token? {
+    public func read() -> Token? {
 
         guard let stream = self.stream else {
 
@@ -254,12 +248,12 @@ open class TokenStreamIterator {
     }
 
     //ResetToBegin reset to begin
-    func reset() {
+    public func reset() {
 
         offset = 0
     }
     //ReadFirstTokenType read first token of type
-    func first( type: Int ) -> Token? {
+    public func first( type: Int ) -> Token? {
 
         reset()
 
@@ -267,7 +261,7 @@ open class TokenStreamIterator {
     }
 
     //ReadNextTokenType read from current position to next match of token type
-    func next(type: Int) -> Token? {
+    public func next(type: Int) -> Token? {
 
         while(!eos) {
 
@@ -282,7 +276,7 @@ open class TokenStreamIterator {
     }
 
     //FindPattern search pattern
-    func findPattern(pattern_groups : [PatternGroup], stopWhenFound: Bool, phraseBreak : Int, isIgnore: (Int)-> Bool, fnName: (Int)->String ) -> [Mark] {
+    public func findPattern(pattern_groups : [PatternGroup], stopWhenFound: Bool, phraseBreak : Int, isIgnore: (Int)-> Bool, fnName: (Int)->String ) -> [Mark] {
 
         var marks : [Mark] = []
 
@@ -491,7 +485,7 @@ open class TokenStreamIterator {
     }
 
     //GetMaskedToken get token from mask
-    func maskedToken( mark: Mark, ignore_offsets :[Int] ) -> Token? {
+    public func maskedToken( mark: Mark, ignore_offsets :[Int] ) -> Token? {
 
         var len = mark.end - mark.begin
 

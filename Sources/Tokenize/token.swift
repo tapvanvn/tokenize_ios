@@ -1,21 +1,21 @@
 open class Token {
 
-    var content : String = ""
-    var type : Int = 0
-    var children : TokenStream = TokenStream.init()
+    public var content : String = ""
+    public var type : Int = 0
+    public var children : TokenStream = TokenStream.init()
 
-    init(content: String, type: Int) {
+    public init(content: String, type: Int) {
 
         self.content = content
         self.type = type
     }
 
-    convenience init(content: String) {
+    public convenience init(content: String) {
         
         self.init(content: content, type: 0)
     }
 
-    convenience init(type: Int) {
+    public convenience init(type: Int) {
         
         self.init(content: "", type: type)
     }
