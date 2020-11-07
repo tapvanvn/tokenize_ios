@@ -9,6 +9,7 @@ open class Meaning {
     }
     
     var stream:TokenStream = TokenStream.init()
+    var main_iter: TokenStreamIterator!
 
     public init(content: String, operators: String, spaces: String) {
 
@@ -67,10 +68,17 @@ open class Meaning {
 
             stream.addToken(token: Token.init(content: cur_content, type: cur_type.rawValue))
         }
+
+        main_iter = stream.iterator()
     }
 
     public convenience init(content: String, operators: String) {
 
         self.init(content: content, operators: operators, spaces: "")
+    }
+
+    public func next()-> Token? {
+
+        return main_iter.read()
     }
 }
