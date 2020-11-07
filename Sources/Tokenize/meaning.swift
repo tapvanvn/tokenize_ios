@@ -8,9 +8,9 @@ open class Meaning {
         case `operator` = 3
     }
     
-    internal var stream:TokenStream = TokenStream.init()
-    
-    internal var main_iter: TokenStreamIterator!
+    public var stream:TokenStream = TokenStream.init()
+
+    public var main_iter: TokenStreamIterator!
 
     public init(content: String, operators: String, spaces: String) {
 
