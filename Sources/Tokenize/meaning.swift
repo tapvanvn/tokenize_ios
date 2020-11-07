@@ -78,7 +78,7 @@ open class Meaning {
         self.init(content: content, operators: operators, spaces: "")
     }
 
-    public func next()-> Token? {
+    open func next()-> Token? {
 
         return main_iter.read()
     }
