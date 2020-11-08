@@ -2,17 +2,17 @@
 
 //PatternToken pattern
 public struct Pattern {
-	var type : Int
-	var content : String
-	var is_phrase_until : Bool
-	var is_ignore_in_result : Bool
-	var can_nested : Bool
-	var export_type : Int
+	public var type : Int
+	public var content : String
+	public var is_phrase_until : Bool
+	public var is_ignore_in_result : Bool
+	public var can_nested : Bool
+	public var export_type : Int
 }
 
 //Pattern define a pattern is a array of token type
 public struct PatternGroup {
-	var type : Int
-	var patterns : [Pattern]
-	var is_remove_global_ignore : Bool
+	public var type : Int
+	public var patterns : [Pattern]
+	public var is_remove_global_ignore : Bool
 }
