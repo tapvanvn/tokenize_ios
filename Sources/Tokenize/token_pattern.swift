@@ -18,6 +18,44 @@ public struct Pattern {
 		self.can_nested = can_nested 
 		self.export_type = export_type
 	}
+
+	//pattern define a token_type
+	public convenience init(type: Int) {
+		self.init(type: type, 
+			content:"", 
+			is_phrase_until: false, 
+			is_ignore_in_result: false, 
+			can_nested: false, 
+			export_type: 0)
+	}
+
+	public convenience init(type: Int, can_nested: Bool) {
+		self.init(type: type, 
+			content:"", 
+			is_phrase_until: false, 
+			is_ignore_in_result: false, 
+			can_nested: can_nested, 
+			export_type: 0)
+	}
+
+	public convenience init(type: Int, is_ignore_in_result: Bool) {
+
+		self.init(type: type, 
+			content:"", 
+			is_phrase_until: false, 
+			is_ignore_in_result: is_ignore_in_result, 
+			can_nested: false, 
+			export_type: 0)
+	}
+
+	public convenience init(export_type: Int, is_phrase_until: Bool) {
+		self.init(type: 0, 
+			content:"", 
+			is_phrase_until: is_phrase_until, 
+			is_ignore_in_result: false, 
+			can_nested: false, 
+			export_type: export_type)
+	}
 }
 
 //Pattern define a pattern is a array of token type
