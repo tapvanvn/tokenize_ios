@@ -1,7 +1,7 @@
 import XCTest
 
-import tokenize_iosTests
+import TokenizeTests
 
 var tests = [XCTestCaseEntry]()
-tests += tokenize_iosTests.allTests()
+tests += TokenizeTests.allTests()
 XCTMain(tests)

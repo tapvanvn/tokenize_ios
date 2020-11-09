@@ -6,12 +6,19 @@ open class Meaning {
         case word = 1
         case space = 2
         case `operator` = 3
+        case phrase_break = 4
     }
     
     public var stream:TokenStream = TokenStream.init()
 
     public var main_iter: TokenStreamIterator!
 
+    public init(unsafe_stream:TokenStream) {
+        
+        self.stream = unsafe_stream
+        self.main_iter = self.stream.iterator()
+    }
+    
     public init(content: String, operators: String, spaces: String) {
 
         let raw_stream = TokenStream.init()
@@ -70,9 +77,9 @@ open class Meaning {
             stream.addToken(token: Token.init(content: cur_content, type: cur_type.rawValue))
         }
 
-        main_iter = stream.iterator()
+        self.main_iter = stream.iterator()
     }
-
+    
     public convenience init(content: String, operators: String) {
 
         self.init(content: content, operators: operators, spaces: "")

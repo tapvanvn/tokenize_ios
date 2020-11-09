@@ -22,7 +22,7 @@ let package = Package(
             name: "Tokenize",
             dependencies: []),
         .testTarget(
-            name: "tokenize_iosTests",
+            name: "TokenizeTests",
             dependencies: ["Tokenize"]),
     ]
 )
