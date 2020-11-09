@@ -1,5 +1,11 @@
 public struct RawTokenDefine {
     
+    public init(type: Int, separate: Bool) {
+        
+        self.type = type
+        self.separate = separate
+    }
+    
     public var `type` : Int // should be > 0
     public var separate: Bool //each char is separate token
 }
