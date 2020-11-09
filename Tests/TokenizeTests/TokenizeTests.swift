@@ -1,17 +1,6 @@
 import XCTest
 @testable import Tokenize
 
-var pattern_groups : [PatternGroup]  = [
-    
-    PatternGroup.init(type: 100, patterns: [
-        
-        Pattern.init(type: Meaning.BasicTokenType.word.rawValue),
-        Pattern.init(content: "="),
-        Pattern.init(type: Meaning.BasicTokenType.word.rawValue)
-        
-    ], is_remove_global_ignore: true)
-]
-
 final class TokenizeTests: XCTestCase {
     
     func testTokenStream(){
@@ -68,9 +57,14 @@ final class TokenizeTests: XCTestCase {
     
     func testMeaning_Toknize(){
         
+        var token_map = Dictionary<String, RawTokenDefine>()
+        token_map["="] = RawTokenDefine(type: 1, separate: true)
+        
         let content : String = "test=abc test2=bcd"
         
-        let meaning: Meaning = Meaning.init(content: content, operators: "=", spaces: " ")
+        let meaning: Meaning = RawMeaning.init(token_map: token_map, separate: false)
+        
+        meaning.prepare(content: content)
         
         let iter: TokenStreamIterator = meaning.main_iter
         
@@ -88,7 +82,13 @@ final class TokenizeTests: XCTestCase {
         
         let content : String = "test=abc test2=bcd"
         
-        let meaning: Meaning = Meaning.init(content: content, operators: "=", spaces: " ")
+        var token_map = Dictionary<String, RawTokenDefine>()
+        token_map["="] = RawTokenDefine(type: 1, separate: true)
+        token_map[" "] = RawTokenDefine(type: 2, separate: false)
+        
+        let meaning: Meaning = RawMeaning.init(token_map: token_map, separate: false)
+        
+        meaning.prepare(content: content)
         
         var result = ""
         
@@ -96,8 +96,10 @@ final class TokenizeTests: XCTestCase {
         
         while(token != nil ) {
             
-            result += token!.content
-            
+            if token!.type != 2 {
+                
+                result += token!.content
+            }
             token = meaning.next()
         }
         
@@ -112,14 +114,21 @@ final class TokenizeTests: XCTestCase {
             
             PatternGroup.init(type: 100, patterns: [
                 
-                Pattern.init(type: Meaning.BasicTokenType.word.rawValue),
+                Pattern.init(type: 0),
                 Pattern.init(content: "="),
-                Pattern.init(type: Meaning.BasicTokenType.word.rawValue)
+                Pattern.init(type: 0)
                 
             ], is_remove_global_ignore: true)
         ]
         
-        let meaning: Meaning = Meaning.init(content: content, operators: "=", spaces: " ")
+        var token_map = Dictionary<String, RawTokenDefine>()
+        
+        token_map["="] = RawTokenDefine(type: 1, separate: true)
+        token_map[" "] = RawTokenDefine(type: 2, separate: false)
+        
+        let meaning: Meaning = RawMeaning.init(token_map: token_map, separate: false)
+        
+        meaning.prepare(content: content)
         
         let marks = meaning.main_iter.findPattern(pattern_groups: pattern_groups, stop_when_found: true, is_ignore:{_ in return false})
         
@@ -156,23 +165,32 @@ final class TokenizeTests: XCTestCase {
             
             PatternGroup.init(type: 100, patterns: [
                 
-                Pattern.init(type: Meaning.BasicTokenType.word.rawValue),
+                Pattern.init(type: 0),
                 Pattern.init(content: "="),
-                Pattern.init(type: Meaning.BasicTokenType.word.rawValue)
+                Pattern.init(type: 0)
                 
             ], is_remove_global_ignore: true)
         ]
         
-        let meaning = PatternMeaning.init(content: content, operators: "=", spaces: " ", pattern_groups: pattern_groups, is_ignore_func: {_ in return false})
+        var token_map = Dictionary<String, RawTokenDefine>()
         
-        var token = meaning.next()
+        token_map["="] = RawTokenDefine(type: 1, separate: true)
+        token_map[" "] = RawTokenDefine(type: 2, separate: false)
+        
+        let meaning: Meaning = RawMeaning.init(token_map: token_map, separate: false)
+        
+        let pattern_meaning = PatternMeaning.init(source:meaning, pattern_groups: pattern_groups, is_ignore_func: {_ in return false})
+        
+        pattern_meaning.prepare(content: content)
+        
+        var token = pattern_meaning.next()
         
         var result : [String] = []
         
         while(token != nil) {
             
             result.append(token!.children.content)
-            token = meaning.next()
+            token = pattern_meaning.next()
         }
         
         XCTAssertEqual(result.joined(), "test=abctest2=bcd")

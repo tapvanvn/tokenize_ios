@@ -6,14 +6,15 @@ open class PatternMeaning : Meaning {
         _ in return false
     }
     
-    public init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+    /*public init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
 
         super.init(content: content, operators: operators, spaces: spaces)
         
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
 
-    }
+    }*/
+    
     public init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
         
         super.init(unsafe_stream: stream)

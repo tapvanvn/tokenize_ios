@@ -1,18 +1,25 @@
 open class Meaning {
 
-    public enum BasicTokenType : Int {
+    /*public enum BasicTokenType : Int {
 
         case unknown = 0
         case word = 1
         case space = 2
         case `operator` = 3
         case phrase_break = 4
-    }
+    }*/
+    
+    public var source: Meaning? = nil
     
     public var stream:TokenStream = TokenStream.init()
 
     public var main_iter: TokenStreamIterator!
 
+    public init(){
+        
+        self.main_iter = self.stream.iterator()
+    }
+    
     public init(unsafe_stream:TokenStream) {
         
         self.stream = unsafe_stream
@@ -20,6 +27,8 @@ open class Meaning {
     }
     
     public init( source : Meaning) {
+        
+        self.source = source
         
         var token = source.next()
         
@@ -30,6 +39,23 @@ open class Meaning {
         }
     }
     
+    open func prepare(content: String) {
+        
+        if let source = self.source {
+            
+            source.prepare(content: content)
+            stream = TokenStream.init()
+            var token = source.next()
+            
+            while(token != nil) {
+                
+                stream.addToken(token: token!)
+                token = source.next()
+            }
+            main_iter = stream.iterator()
+        }
+    }
+/*
     public init(content: String, operators: String, spaces: String) {
 
         let raw_stream = TokenStream.init()
@@ -95,7 +121,7 @@ open class Meaning {
 
         self.init(content: content, operators: operators, spaces: "")
     }
-
+*/
     open func next()-> Token? {
 
         return main_iter.read()
