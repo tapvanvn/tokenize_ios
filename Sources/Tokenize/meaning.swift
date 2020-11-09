@@ -19,6 +19,17 @@ open class Meaning {
         self.main_iter = self.stream.iterator()
     }
     
+    public init( source : Meaning) {
+        
+        var token = source.next()
+        
+        while(token != nil) {
+            
+            stream.addToken(token: token!)
+            token = source.next()
+        }
+    }
+    
     public init(content: String, operators: String, spaces: String) {
 
         let raw_stream = TokenStream.init()

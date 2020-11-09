@@ -6,24 +6,27 @@ class PatternMeaning : Meaning {
         _ in return false
     }
     
-    var name_func: ((Int)->String)? = nil
-    
-    init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, name_func: ( (Int)->String)?) {
+    init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
 
         super.init(content: content, operators: operators, spaces: spaces)
         
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
-        self.name_func = name_func
-        
+
     }
-    init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, name_func: ( (Int)->String)?) {
+    init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
         
         super.init(unsafe_stream: stream)
         
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
-        self.name_func = name_func
+    }
+    
+    init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+        
+        super.init(source: source)
+        self.pattern_groups = pattern_groups
+        self.is_ignore_func = is_ignore_func
     }
     
     override func next ()->Token?{
@@ -51,7 +54,7 @@ class PatternMeaning : Meaning {
                     
                     if child_token != nil && child_mark.can_nested {
                         
-                        let child_meaning = PatternMeaning.init(stream: child_token!.children, pattern_groups: self.pattern_groups, is_ignore_func: self.is_ignore_func, name_func: self.name_func)
+                        let child_meaning = PatternMeaning.init(stream: child_token!.children, pattern_groups: self.pattern_groups, is_ignore_func: self.is_ignore_func)
                         
                         let sub_stream = TokenStream.init()
                         

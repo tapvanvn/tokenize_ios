@@ -163,7 +163,7 @@ final class TokenizeTests: XCTestCase {
             ], is_remove_global_ignore: true)
         ]
         
-        let meaning = PatternMeaning.init(content: content, operators: "=", spaces: " ", pattern_groups: pattern_groups, is_ignore_func: {_ in return false}, name_func: nil)
+        let meaning = PatternMeaning.init(content: content, operators: "=", spaces: " ", pattern_groups: pattern_groups, is_ignore_func: {_ in return false})
         
         var token = meaning.next()
         
