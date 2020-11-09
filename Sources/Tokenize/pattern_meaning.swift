@@ -6,7 +6,7 @@ open class PatternMeaning : Meaning {
         _ in return false
     }
     
-    init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+    public init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
 
         super.init(content: content, operators: operators, spaces: spaces)
         
@@ -14,7 +14,7 @@ open class PatternMeaning : Meaning {
         self.is_ignore_func = is_ignore_func
 
     }
-    init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+    public init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
         
         super.init(unsafe_stream: stream)
         
@@ -22,7 +22,7 @@ open class PatternMeaning : Meaning {
         self.is_ignore_func = is_ignore_func
     }
     
-    init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+    public init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
         
         super.init(source: source)
         self.pattern_groups = pattern_groups
