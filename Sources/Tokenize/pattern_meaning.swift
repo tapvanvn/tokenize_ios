@@ -1,4 +1,4 @@
-class PatternMeaning : Meaning {
+open class PatternMeaning : Meaning {
     
     var pattern_groups: [PatternGroup] = []
     
@@ -29,7 +29,7 @@ class PatternMeaning : Meaning {
         self.is_ignore_func = is_ignore_func
     }
     
-    override func next ()->Token?{
+    open override func next ()->Token?{
         
         while( !main_iter.eos) {
             
