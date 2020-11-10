@@ -57,8 +57,7 @@ open class RawMeaning : Meaning {
                         cur_content += String(char)
 
                         cur_type = pair.value.type
-                        
-                        debugPrint("found \(String(char)) ")
+
                         found = true
                         
                         break
@@ -66,7 +65,7 @@ open class RawMeaning : Meaning {
                 }
                 
                 if(!found) {
-                    debugPrint("fnot ound \(String(char)) ")
+
                     if(cur_type != 0 || self.separate) {
                         
                         stream.addToken(token: Token.init(content: cur_content, type: cur_type))
@@ -76,7 +75,6 @@ open class RawMeaning : Meaning {
                     cur_type = 0
                 }
             }
-            
         }
         
         if(cur_content.count > 0) {
