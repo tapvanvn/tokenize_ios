@@ -26,6 +26,8 @@ open class RawMeaning : Meaning {
     open override func prepare(content: String) {
         
         let raw_stream = TokenStream.init()
+        
+        stream = TokenStream.init()
 
         raw_stream.tokenize(content: content)
 
