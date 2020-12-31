@@ -31,9 +31,11 @@ open class PatternMeaning : Meaning {
         self.is_ignore_func = is_ignore_func
     }
 
-    public convenience init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, global_can_nested: [Int]) {
+    public init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, global_can_nested: [Int]) {
 
-        self.init(source: source, pattern_groups: pattern_groups, is_ignore_func: is_ignore_func)
+        super.init(source: source)
+        self.pattern_groups = pattern_groups
+        self.is_ignore_func = is_ignore_func
         self.global_can_nested = global_can_nested
     }
     
