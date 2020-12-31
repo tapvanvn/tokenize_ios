@@ -1,6 +1,7 @@
 open class PatternMeaning : Meaning {
     
     var pattern_groups: [PatternGroup] = []
+    var global_can_nested: [Int] = []
     
     var is_ignore_func: (Int)->Bool = {
         _ in return false
@@ -28,6 +29,12 @@ open class PatternMeaning : Meaning {
         super.init(source: source)
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
+    }
+
+    convenience init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, global_can_nested: [Int]) {
+
+        self.init(source: source, pattern_groups: pattern_groups, is_ignore_func: is_ignore_func)
+        self.global_can_nested = global_can_nested
     }
     
     open override func next ()->Token?{
@@ -90,7 +97,28 @@ open class PatternMeaning : Meaning {
                 
             } else { // case no mark found
                 
-                return main_iter.read()
+                if let normal_token = main_iter.read() {
+
+                    if normal_token.children.length > 0 && global_can_nested.contains(normal_token.type) {
+
+                        let child_meaning = PatternMeaning.init(stream: normal_token.children, pattern_groups: self.pattern_groups, is_ignore_func: self.is_ignore_func)
+                            
+                        let sub_stream = TokenStream.init()
+                        
+                        while(true) {
+                            
+                            let nested_token = child_meaning.next()
+                            
+                            if nested_token == nil {
+                                break
+                            }
+                            sub_stream.addToken(token: nested_token!)
+                        }
+                        normal_token.children = sub_stream
+                    }
+
+                    return normal_token
+                }
             }
         }
         return nil
