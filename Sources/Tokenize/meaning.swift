@@ -37,6 +37,7 @@ open class Meaning {
             stream.addToken(token: token!)
             token = source.next()
         }
+        self.main_iter = self.stream.iterator()
     }
     
     open func prepare(content: String) {
