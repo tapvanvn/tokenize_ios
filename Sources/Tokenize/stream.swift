@@ -56,6 +56,26 @@ open class TokenStream {
             addToken(token: token)
         }
     }
+    
+    public func printDebug(level: Int){
+
+        let tab = [String].init(repeating: "-", count: level).joined()
+        let iter = iterator()
+        while !iter.eos {
+            
+            if let token = iter.read() {
+                
+                
+                debugPrint("|-\(tab)\(token.type)_\(token.content)")
+                
+                if token.children.length > 0 {
+                    
+                    token.children.printDebug(level: level + 1)
+                }
+            }
+        }
+        
+    }
 }
 
 
