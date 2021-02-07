@@ -7,21 +7,13 @@ open class PatternMeaning : Meaning {
         _ in return false
     }
     
-    /*public init(content:String, operators: String, spaces:String, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
-
-        super.init(content: content, operators: operators, spaces: spaces)
-        
-        self.pattern_groups = pattern_groups
-        self.is_ignore_func = is_ignore_func
-
-    }*/
-    
-    public init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
+    public init(stream: TokenStream, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, global_can_nested: [Int]) {
         
         super.init(unsafe_stream: stream)
         
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
+        self.global_can_nested = global_can_nested
     }
     
     public init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool) {
@@ -29,6 +21,7 @@ open class PatternMeaning : Meaning {
         super.init(source: source)
         self.pattern_groups = pattern_groups
         self.is_ignore_func = is_ignore_func
+        
     }
 
     public init(source: Meaning, pattern_groups:[PatternGroup], is_ignore_func: @escaping (Int)->Bool, global_can_nested: [Int]) {
@@ -64,7 +57,11 @@ open class PatternMeaning : Meaning {
                     
                     if child_token != nil && child_mark.can_nested {
                         
-                        let child_meaning = PatternMeaning.init(stream: child_token!.children, pattern_groups: self.pattern_groups, is_ignore_func: self.is_ignore_func)
+                        let child_meaning = PatternMeaning.init(
+                            stream: child_token!.children,
+                            pattern_groups: self.pattern_groups,
+                            is_ignore_func: self.is_ignore_func,
+                            global_can_nested: self.global_can_nested)
                         
                         let sub_stream = TokenStream.init()
                         
@@ -103,7 +100,14 @@ open class PatternMeaning : Meaning {
 
                     if normal_token.children.length > 0 && global_can_nested.contains(normal_token.type) {
 
-                        let child_meaning = PatternMeaning.init(stream: normal_token.children, pattern_groups: self.pattern_groups, is_ignore_func: self.is_ignore_func)
+                        let child_meaning = PatternMeaning.init(
+                            stream: normal_token.children,
+                                                                
+                            pattern_groups: self.pattern_groups,
+                                                                
+                            is_ignore_func: self.is_ignore_func,
+                                                                
+                            global_can_nested: self.global_can_nested)
                             
                         let sub_stream = TokenStream.init()
                         
